@@ -21,7 +21,6 @@ pipeline {
         }
         stage('Compile Code') {
             steps {
-			    sh 'echo "Starting Compile stage'
                 sh 'mvn clean package -DskipTests'
             }
         }
