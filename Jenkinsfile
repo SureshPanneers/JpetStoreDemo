@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = 'https://github.com/your-org/your-repo.git'
+        GIT_REPO = 'https://github.com/venkattharakram/JPetStore.git'
         BRANCH = 'main'
-        DOCKER_IMAGE = 'your-dockerhub-username/your-image-name'
-        SONAR_PROJECT_KEY = 'your-project-key'
-        SONAR_HOST_URL = 'http://your-sonarqube-url'
-        SONAR_TOKEN = credentials('sonar-token') // Jenkins credential ID
+        DOCKER_IMAGE = 'tharak397/ciscodevops'
+        //SONAR_PROJECT_KEY = 'your-project-key'
+        //SONAR_HOST_URL = 'http://your-sonarqube-url'
+        //SONAR_TOKEN = credentials('sonar-token') // Jenkins credential ID
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds' // Jenkins credential ID
-        DEPLOYMENT_FILE = 'k8s/deployment.yaml'
+        DEPLOYMENT_FILE = 'deployment.yaml'
     }
 
     stages {
@@ -19,14 +19,14 @@ pipeline {
                 git branch: "${BRANCH}", url: "${GIT_REPO}"
             }
         }
-
         stage('Compile Code') {
             steps {
+			    sh 'echo "Starting Compile stage'
                 sh 'mvn clean package -DskipTests'
             }
         }
 
-        stage('SonarQube Analysis') {
+       /* stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'SonarQube Scanner' // name configured in Jenkins tools
             }
@@ -35,7 +35,7 @@ pipeline {
                     sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.sources=src -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}"
                 }
             }
-        }
+        }*/
 
         stage('Build Docker Image') {
             steps {
