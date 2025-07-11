@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script {
                     def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
-                    sh "docker build -t ${imageTag} ."
+                    sh "sudo docker build -t ${imageTag} ."
                 }
             }
         }
