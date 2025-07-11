@@ -68,12 +68,14 @@ pipeline {
             }
         }
 
-        stage('Deploy to Minikube') {
-            steps {
-                sh 'kubectl apply -f ${DEPLOYMENT_FILE}'
-            }
+       stage('Deploy to Minikube') {
+           steps {
+              withCredentials([file(credentialsId: 'minikube-kube-config', variable: 'KUBECONFIG')]) {
+            sh 'kubectl apply -f ${DEPLOYMENT_FILE}'
         }
     }
+}
+}
 
     post {
         success {
