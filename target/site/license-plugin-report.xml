@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<licensePluginReport goal="FORMAT" timestamp="1752133176918">
+<licensePluginReport goal="FORMAT" timestamp="1752166958059">
     <module artifactId="maven-wrapper" groupId="org.mybatis" version="6.1.1-SNAPSHOT"/>
     <files>
+        <file path="Dockerfile" result="NOOP"/>
         <file path="MockProject_SonarResults.JPG" result="UNKNOWN"/>
         <file path="MockProject_build_results.JPG" result="UNKNOWN"/>
         <file path="MockProject_deployment_confirmStatus_1.JPG" result="UNKNOWN"/>
@@ -16,9 +17,10 @@
         <file path="build/reports/tests/org/mybatis/jpetstore/ScreenTransitionIT/testUpdateProfile/1752132996110.4.html" result="NOOP"/>
         <file path="build/reports/tests/org/mybatis/jpetstore/ScreenTransitionIT/testViewCart/1752133009936.8.html" result="NOOP"/>
         <file path="build/reports/tests/org/mybatis/jpetstore/ScreenTransitionIT/testViewHelp/1752133013389.9.html" result="NOOP"/>
-        <file path="docker-tomcat-deploy/Dockerfile" result="NOOP"/>
+        <file path="deployment.yaml" result="NOOP"/>
         <file path="format.xml" result="NOOP"/>
         <file path="pom.xml" result="NOOP"/>
+        <file path="service.yaml" result="NOOP"/>
         <file path="sonar-project.properties" result="NOOP"/>
         <file path="src/main/java/org/mybatis/jpetstore/domain/Account.java" result="NOOP"/>
         <file path="src/main/java/org/mybatis/jpetstore/domain/Cart.java" result="NOOP"/>

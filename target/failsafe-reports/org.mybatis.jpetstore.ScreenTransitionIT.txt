@@ -1,0 +1,144 @@
+-------------------------------------------------------------------------------
+Test set: org.mybatis.jpetstore.ScreenTransitionIT
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 10, Errors: 0, Skipped: 0, Time elapsed: 37.55 s <<< FAILURE! -- in org.mybatis.jpetstore.ScreenTransitionIT
+org.mybatis.jpetstore.ScreenTransitionIT.testOrder -- Time elapsed: 5.824 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testOrder(ScreenTransitionIT.java:75)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testRegistrationUser -- Time elapsed: 3.565 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testRegistrationUser(ScreenTransitionIT.java:190)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testLogoContent -- Time elapsed: 3.533 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testLogoContent(ScreenTransitionIT.java:417)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testSelectItems -- Time elapsed: 3.535 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testSelectItems(ScreenTransitionIT.java:239)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testUpdateProfile -- Time elapsed: 3.502 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testUpdateProfile(ScreenTransitionIT.java:160)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testMainImageContentOnTopPage -- Time elapsed: 3.608 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testMainImageContentOnTopPage(ScreenTransitionIT.java:376)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testQuickLinks -- Time elapsed: 3.532 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testQuickLinks(ScreenTransitionIT.java:345)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testSidebarContentOnTopPage -- Time elapsed: 3.475 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testSidebarContentOnTopPage(ScreenTransitionIT.java:309)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testViewCart -- Time elapsed: 3.457 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testViewCart(ScreenTransitionIT.java:276)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+org.mybatis.jpetstore.ScreenTransitionIT.testViewHelp -- Time elapsed: 3.466 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: "JPetStore Demo"
+ but was: "Sign in - Jenkins"
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at org.mybatis.jpetstore.ScreenTransitionIT.testViewHelp(ScreenTransitionIT.java:293)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
