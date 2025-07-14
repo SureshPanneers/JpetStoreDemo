@@ -246,4 +246,22 @@ pipeline {
 
 <img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-22-05" src="https://github.com/user-attachments/assets/49674db6-7c35-42b4-8053-297e589f269d" />
 
+### After pipeline execution 
+<img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-24-26" src="https://github.com/user-attachments/assets/42062cc5-ccaf-410c-8210-be8704910276" />
+
+###  Docker hub images
+
+<img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-26-47" src="https://github.com/user-attachments/assets/70c421ff-a9c0-4690-99c1-50893e5022b6" />
+
+## Pods and service running in server 
+
+<img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-28-23" src="https://github.com/user-attachments/assets/dde688c8-7dde-4fb0-9067-7901565c81c6" />
+
+### application home page url 
+<img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-29-07" src="https://github.com/user-attachments/assets/7fd30bc9-7232-47ec-a3e7-64fed490a179" />
+
+
+
+
+
 
