@@ -5,8 +5,6 @@
 
 Ubunto version
 
-Check with lsb_release (Recommended):
-
 lsb_release -a
 
 Output Example:
@@ -15,8 +13,6 @@ Distributor ID: Ubuntu
 Description:    Ubuntu 22.04.4 LTS
 Release:        22.04
 Codename:       jammy
-
-
 
 #### Install below Packages on Jenkins server
 
@@ -37,6 +33,7 @@ sudo systemctl enable jenkins
 
 
 ### Docker installation >>>>>>>>>>>>>>
+
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
 sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
