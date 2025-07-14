@@ -1,106 +1,113 @@
-# Cisco Demo project Documentation for WAR Deployment to Minikube clusters
+# Cisco Demo Project Documentation for WAR Deployment to Minikube Clusters
 
+---
 
-## Prerequisites and Configuration
+## 🛠️ Prerequisites and Configuration
 
-#### Install below Packages on Jenkins server
+### Install Required Packages on Jenkins Server
 
-**Install Java:**
+#### ✅ Java Installation
+```bash
 sudo apt update
 sudo apt install openjdk-17-jdk -y
+```
 
-**Install Jenkins:**
-
+#### ✅ Jenkins Installation
+```bash
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
 sudo apt update
 sudo apt install jenkins -y
-
-# start Jenkins service
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
+```
 
+---
 
-### Docker installation >>>>>>>>>>>>>>
-
+### 🐳 Docker Installation
+```bash
 sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-
-echo \
-"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) stable" | \
-sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io -y
 
 docker --version
 docker compose version
+```
 
+---
 
-### Sonarqube  installation >>>>>>>>>>>>>>
-
+### 🔍 SonarQube Installation
+```bash
 sudo docker pull sonarqube
+sudo docker run -d --name sonarqube -p 9000:9000 sonarqube
+```
 
-sudo docker run -d --name sonarqube   -p 9000:9000   sonarqube
+---
 
-
-
-### Kubectl CLI  installation >>>>>>>>>>>>>>
-
-
+### ⚙️ Kubectl CLI Installation
+```bash
 sudo apt update
-
 curl -LO "https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-
 chmod +x kubectl
-
 sudo mv kubectl /usr/local/bin/
-
 kubectl version --client
+```
 
+---
 
-### Miniqube installation>>>>>>>
-
+### 🌱 Minikube Installation
+```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y curl apt-transport-https ca-certificates conntrack
 wget -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 minikube version
 minikube start
+```
 
+---
 
-### Install plugins
+## 🔀 Jenkins CI/CD Process
+
+### 🔌 Required Plugins
 - Docker Pipeline
 - Pipeline
-- Pipeline view
+- Pipeline View
 - SonarQube Scanner
-- kubectl cli
+- Kubectl CLI
 
-### Global tool configuration
-
+### 🌐 Global Tool Configuration
 **SonarQube:**
-- Name: SonarQube
-- Server URL: http://<SonarQube-IP>:9000
-- Token: Add via Jenkins Credentials (Secret Text)
+- **Name:** `SonarQube`
+- **Server URL:** `http://<SonarQube-IP>:9000`
+- **Token:** Stored as Jenkins Credentials (Secret Text)
 
+---
 
-## Docker file >>>>>
+## 📄 CI/CD Pipeline Files Explanation
 
+### 1. 🐳 Dockerfile
+```Dockerfile
 FROM tomcat:9.0-jdk11
-
 RUN rm -rf /usr/local/tomcat/webapps/*
-
 COPY target/maven-wrapper.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
+```
+**Explanation:**
+- Uses Tomcat with JDK 11 as base image.
+- Removes default webapps.
+- Deploys the WAR as `ROOT.war` so it runs at `/` context path.
 
+---
 
-### Deployment.yaml file>>>>>
-
+### 2. 📆 `deployment.yaml`
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -121,10 +128,15 @@ spec:
         image: tharak397/ciscodevops:2.0
         ports:
         - containerPort: 8080
-        
-        
-##service.yaml file >>>>
+```
+**Explanation:**
+- Deploys a container from Docker Hub image to Kubernetes.
+- Namespace: `jpetstore`, 1 replica, exposed on port 8080.
 
+---
+
+### 3. 🌐 `service.yaml`
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -136,8 +148,11 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080     
+      targetPort: 8080
       nodePort: 30007
+```
+**Explanation:**
+- Exposes the app on port 30007 so it's accessible externally.
         
 
 ## 4. Jenkinsfile
