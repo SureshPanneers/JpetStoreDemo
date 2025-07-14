@@ -183,6 +183,13 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
+           stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('My_SonarQube_Server') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
@@ -243,7 +250,12 @@ pipeline {
 <img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-22-05" src="https://github.com/user-attachments/assets/49674db6-7c35-42b4-8053-297e589f269d" />
 
 ### ✅ After Pipeline Execution :
-<img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-24-26" src="https://github.com/user-attachments/assets/42062cc5-ccaf-410c-8210-be8704910276" />
+<img width="1920" height="1080" alt="Screenshot from 2025-07-14 23-43-08" src="https://github.com/user-attachments/assets/d34eaccb-8498-4995-a678-680293537077" />
+
+
+### ✅ Sonarqube report 
+<img width="1920" height="1080" alt="Screenshot from 2025-07-14 23-40-19" src="https://github.com/user-attachments/assets/e4ab1cee-1eb5-45c4-955b-0b4d00d10f81" />
+
 
 ###  🐳 Docker Hub Image:
 
