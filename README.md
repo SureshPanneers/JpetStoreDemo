@@ -1,41 +1,31 @@
-# Cisco Demo project Documentation for WAR Deployment to Tomcat
+# Cisco Demo project Documentation for WAR Deployment to Miniqube clusters
 
-```bash
-GitHub (Source Code Repository)
-│
-▼
-Jenkins (CI/CD Orchestrator)
-├── Pull code from GitHub (via Webhook or Poll SCM)
-├── Maven Build (Compile + Unit Test + Package WAR)
-├── SonarQube Code Analysis (Static Code Quality & Security Checks)
-├── Archive artifacts (Optional: WAR file stored in Jenkins or Nexus)
-└── Deploy WAR to Tomcat running on EC2 (App Server)
-```
 
----
+## Prerequisites and Configuration
 
-## 2. EC2 Servers Setup
+Ubunto version
 
-| Purpose       | EC2 Type | OS           | Storage | Inbound Ports                 |
-|---------------|----------|--------------|---------|-------------------------------|
-| Jenkins       | t3.medium| Ubuntu 22.04 | 15 GB   | 8080 (Jenkins), 22 (SSH) ,8085 (Tomcat)     |
-| SonarQube     | t3.medium| Ubuntu 22.04 | 15 GB   | 9000 (SonarQube), 5432 (DB), 22 |
+Check with lsb_release (Recommended):
 
----
+lsb_release -a
 
-## 3. Prerequisites and Configuration
+Output Example:
 
-### A. In Jenkins Server (Ubuntu 22.04)
+Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.4 LTS
+Release:        22.04
+Codename:       jammy
+
+
 
 #### Install below Packages on Jenkins server
 
 **Install Java:**
-```bash
 sudo apt update
-sudo apt install openjdk-21-jdk maven docker.io git unzip curl -y
-```
+sudo apt install openjdk-17-jdk -y
+
 **Install Jenkins:**
-```bash
+
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 sudo apt update
@@ -44,161 +34,66 @@ sudo apt install jenkins -y
 # start Jenkins service
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
-```
-**Install Tomcat:**
-```bash
+
+
+### Docker installation >>>>>>>>>>>>>>
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+docker --version
+docker compose version
+
+
+### Sonarqube  installation >>>>>>>>>>>>>>
+
+sudo docker pull sonarqube
+
+sudo docker run -d --name sonarqube   -p 9000:9000   sonarqube
+
+
+
+### Kubectl CLI  installation >>>>>>>>>>>>>>
+
+
 sudo apt update
-sudo apt install tomcat9 -y
-```
-### B. In SonarQube Server (Ubuntu 22.04)
-**Install SonarQube:**
 
-```bash
-# Update system packages
-sudo apt update
-sudo apt upgrade -y
+curl -LO "https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 
-# Install Java (required for SonarQube)
-sudo apt install -y openjdk-17-jdk
-java -version
+chmod +x kubectl
 
-# install PostgreSQL
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" /etc/apt/sources.list.d/pgdg.list'
-wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
-sudo apt install postgresql postgresql-contrib -y
-sudo systemctl enable postgresql
-sudo systemctl start postgresql
-sudo systemctl status postgresql
-psql --version
+sudo mv kubectl /usr/local/bin/
 
-# switch to Postgre user
-sudo -i -u postgres
+kubectl version --client
 
-# Create user for SonarQube
-createuser ddsonar
 
-# login into PostgreSQL
-psql
+### Miniqube installation>>>>>>>
 
-# Set a password for the ddsonar user. Use a strong password in place of my_strong_password.
-ALTER USER [Created_user_name] WITH ENCRYPTED password 'my_strong_password';
-# example
-ALTER USER ddsonar WITH ENCRYPTED password 'mwd#2%#!!#%rgs';
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl apt-transport-https ca-certificates conntrack
+wget -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+minikube version
+minikube start
 
-# Create a SonarQube database and set the owner to ddsonar.
-CREATE DATABASE [database_name] OWNER [Created_user_name];
-# example
-CREATE DATABASE ddsonarqube OWNER ddsonar;
-
-# Grant all the privileges on the ddsonarqube database to the ddsonar user.
-GRANT ALL PRIVILEGES ON DATABASE ddsonarqube to ddsonar;
-
-# List databases and users
-\l
-\du
-
-# Exit PostgreSQL and return to previous (root) user
-\q
-exit
-
-# download and Install Sonarqube
-sudo apt install zip -y
-sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-10.0.0.68432.zip
-sudo unzip sonarqube-10.0.0.68432.zip
-sudo mv sonarqube-10.0.0.68432 sonarqube
-sudo mv sonarqube /opt/
-
-# Add SonarQube Group and User
-sudo groupadd ddsonar
-sudo useradd -d /opt/sonarqube -g ddsonar ddsonar
-sudo chown ddsonar:ddsonar /opt/sonarqube -R
-```
-**Configure SonarQube:**
-```bash
-# Edit the SonarQube Configurationfile:
-sudo vi /opt/sonarqube/conf/sonar.properties
-
-# Update the following lines (uncomment and modify as needed) and save the file:
-sonar.jdbc.username=ddsonar
-sonar.jdbc.password=mwd#2%#!!#%rgs
-sonar.jdbc.url=jdbc:postgresql://localhost:5432/ddsonarqube
-
-# Edit the sonar script file.
-sudo vi /opt/sonarqube/bin/linux-x86-64/sonar.sh
-# Add the following line in top after bash line then save the file
-RUN_AS_USER=ddsonar
-```
-
-**Setup Systemd service:**
-```bash
-# Create a systemd service file to start SonarQube at system boot.
-sudo vi /etc/systemd/system/sonar.service
-
-# Paste the following lines to the file and save the file.
-[Unit]
-Description=SonarQube service
-After=syslog.target network.target
-[Service]
-Type=forking
-ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
-ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
-User=ddsonar
-Group=ddsonar
-Restart=always
-LimitNOFILE=65536
-LimitNPROC=4096
-[Install]
-WantedBy=multi-user.target
-
-Note: Here in the above script, make sure to change the User and Group section with the value that you have created.
-# Enable the SonarQube service to run at system startup.
-sudo systemctl enable sonar
-
-# Start the SonarQube service.
-sudo systemctl start sonar
-
-#Check the service status.
-sudo systemctl status sonar
-```
-
-**Modify Kernel System Limits:**
-```bash
-# SonarQube uses Elasticsearch to store its indices in an MMap FS directory. It requires some changes to the system defaults.
-# Edit the sysctl configuration file.
-sudo nano /etc/sysctl.conf
-
-# Add the following lines and save the file.
-vm.max_map_count=262144
-fs.file-max=65536
-ulimit -n 65536
-ulimit -u 4096
-
-# Reboot the system to apply the changes.
-sudo reboot
-```
-
-**Access SonarQube Web Interface:**
-```bash
-# Access SonarQube in a web browser at your server’s IP address on port 9000.
-For example, http://IP:9000
-
-# Change the Old password with a New one.
-Log in with username `admin` and password `admin`. In the next step, SonarQube will prompt you to change your password. `CHANGE THE PASSWORD`.
-```
-**Our SonarQube has been installed successfully.**
-
-## 3. Jenkins Configuration:
-
-### Configure Global Tools
-- Maven: `Maven3` (point to: `/usr/share/maven`)
-- JDK: `java-21` (point to: `/usr/lib/jvm/java-21-openjdk-amd64`)
 
 ### Install plugins
 - Docker Pipeline
 - Pipeline
 - Pipeline view
 - SonarQube Scanner
-- SSH Agent
+- kubectl cli
 
 ### Global tool configuration
 
@@ -207,84 +102,153 @@ Log in with username `admin` and password `admin`. In the next step, SonarQube w
 - Server URL: http://<SonarQube-IP>:9000
 - Token: Add via Jenkins Credentials (Secret Text)
 
-## 4. Jenkinsfile (Declarative Pipeline):
 
-```bash
+## Docker file >>>>>
+
+# Use official Tomcat image
+FROM tomcat:9.0-jdk11
+
+# Remove default apps
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Copy WAR into container
+COPY target/maven-wrapper.war /usr/local/tomcat/webapps/ROOT.war
+
+# Expose port
+EXPOSE 8080
+
+
+### Deployment.yaml file>>>>>
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jpetstore-deployment
+  namespace: jpetstore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jpetstore
+  template:
+    metadata:
+      labels:
+        app: jpetstore
+    spec:
+      containers:
+      - name: jpetstore
+        image: tharak397/ciscodevops:2.0
+        ports:
+        - containerPort: 8080
+        
+        
+##service.yaml file >>>>
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jpetstore-service
+spec:
+  type: NodePort
+  selector:
+    app: jpetstore
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080     
+      nodePort: 30007
+        
+
+## 4. Jenkinsfile
+
 pipeline {
     agent any
 
     environment {
-        SONAR_HOST_URL = 'http://3.88.47.160:9000'
+        GIT_REPO = 'https://github.com/venkattharakram/JPetStore.git'
+        BRANCH = 'main'
+        DOCKER_IMAGE = 'tharak397/ciscodevops'
+        SONAR_PROJECT_KEY = 'JPetStore'
+        SONAR_HOST_URL = 'http://192.168.0.11:9000/'
+        SONAR_TOKEN = credentials('17f04bf5-a0b6-4e5c-a999-7ee0f8a9ddbe') // Jenkins credential ID
+        DOCKER_CREDENTIALS_ID = 'dockerhub-creds' // Jenkins credential ID
+        DEPLOYMENT_FILE = 'deployment.yaml'
     }
 
     stages {
+
         stage('Checkout Code') {
             steps {
-                git branch: 'MockProject-demo', 
-                    url: 'https://github.com/amanoj553/Cisco_FullStack_MockProject.git'
+                git branch: "${BRANCH}", url: "${GIT_REPO}"
             }
         }
-        stage('Unit Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    //sh 'sonar-scanner -Dsonar.projectKey=your-key -Dsonar.sources=src -Dsonar.java.binaries=target'
-                    // sh 'sonar-scanner'
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
-        stage('Build WAR') {
+        stage('Compile Code') {
             steps {
                 sh 'mvn clean package -DskipTests'
             }
         }
-        stage('Deploy WAR') {
+
+   /*     stage('SonarQube Analysis') {
+            environment {
+                scannerHome = tool 'SonarQube Scanner' // name configured in Jenkins tools
+            }
             steps {
-                script {
-                    // Define source WAR file path
-                    def warFile = sh(script: "ls target/*.war", returnStdout: true).trim()
-                    
-                    // Define Tomcat webapps path (update it as per your Tomcat installation)
-                    def tomcatWebappsPath = "/var/lib/tomcat9/webapps/"
-        
-                    // Copy WAR to Tomcat's webapps directory
-                    sh "chmod 755 ${warFile}"  
-                    sh "sudo cp ${warFile} ${tomcatWebappsPath}/"
-        
-                    // Optional: Restart Tomcat if auto-deploy is not enabled
-                     sh "sudo systemctl restart tomcat9"
+                withSonarQubeEnv('My SonarQube Server') {
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.sources=src -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}"
                 }
             }
+        } */
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+                    sh "docker build -t ${imageTag} ."
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                        sh "docker push ${imageTag}"
+                    }
+                }
+            }
+        }
+
+        stage('Update Deployment File') {
+            steps {
+                script {
+                    def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+                    sh """
+                        sed -i 's|image: .*|image: ${imageTag}|' ${DEPLOYMENT_FILE}
+                    """
+                }
+            }
+        }
+
+       stage('Deploy to Minikube') {
+           steps {
+              withCredentials([file(credentialsId: 'minikube-kube-config', variable: 'KUBECONFIG')]) {
+            sh 'kubectl apply -f ${DEPLOYMENT_FILE}'
+        }
+    }
+}
+}
+
+    post {
+        success {
+            echo "Deployment successful to Minikube"
+        }
+        failure {
+            echo "Pipeline failed"
         }
     }
 }
 
-```
+##### Jenkins pipeline overview 
 
-![Build success status](MockProject_build_results.JPG)
-
-![SonarQube Report](MockProject_SonarResults.JPG)
-
-
-## 5. Application test:
-
-**Goto browser and check with below URL**
-- [http://<App-Server-IP>:8085/maven-wrapper/]
-
-  
-![ApplicationTest](MockProject_deployment_confirm_status.JPG)
-
-![ApplicationTest](MockProject_deployment_confirmStatus_1.JPG)
-
-## 6. Troubleshooting Tips:
-
-**SonarQube not loading?**
-- Ensure `java` is version 17+ on SonarQube server
-- Verify PostgreSQL is running
-- check the sonarqube logs for more details
-- check the server memory also some times insufficient also not running
