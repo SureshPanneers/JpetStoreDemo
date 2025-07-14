@@ -1,18 +1,7 @@
-# Cisco Demo project Documentation for WAR Deployment to Miniqube clusters
+# Cisco Demo project Documentation for WAR Deployment to Minikube clusters
 
 
 ## Prerequisites and Configuration
-
-Ubunto version
-
-lsb_release -a
-
-Output Example:
-
-Distributor ID: Ubuntu
-Description:    Ubuntu 22.04.4 LTS
-Release:        22.04
-Codename:       jammy
 
 #### Install below Packages on Jenkins server
 
