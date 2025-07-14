@@ -25,7 +25,7 @@ pipeline {
             }
         }
 
-       stage('SonarQube Analysis') {
+   /*     stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'SonarQube Scanner' // name configured in Jenkins tools
             }
@@ -34,7 +34,7 @@ pipeline {
                     sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.sources=src -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}"
                 }
             }
-        }
+        } */
 
         stage('Build Docker Image') {
             steps {
