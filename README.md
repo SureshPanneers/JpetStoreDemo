@@ -103,7 +103,9 @@ minikube start
 ## Docker file >>>>>
 
 FROM tomcat:9.0-jdk11
+
 RUN rm -rf /usr/local/tomcat/webapps/*
+
 COPY target/maven-wrapper.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
 
