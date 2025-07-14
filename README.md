@@ -238,7 +238,7 @@ pipeline {
 - **Update Deployment File**: Replaces image tag in YAML.
 - **Deploy to Minikube**: Deploys the updated app.
 
-##### ✅ Jenkins Pipeline Overview:
+### ✅ Jenkins Pipeline Overview:
 
 <img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-22-05" src="https://github.com/user-attachments/assets/49674db6-7c35-42b4-8053-297e589f269d" />
 
