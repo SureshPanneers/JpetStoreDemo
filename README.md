@@ -155,24 +155,24 @@ spec:
 - Exposes the app on port 30007 so it's accessible externally.
         
 
-## 4. Jenkinsfile
+---
 
+### 4. 🧪 `Jenkinsfile`
+
+```groovy
 pipeline {
     agent any
-
     environment {
         GIT_REPO = 'https://github.com/venkattharakram/JPetStore.git'
         BRANCH = 'main'
         DOCKER_IMAGE = 'tharak397/ciscodevops'
         SONAR_PROJECT_KEY = 'JPetStore'
         SONAR_HOST_URL = 'http://192.168.0.11:9000/'
-        SONAR_TOKEN = credentials('17f04bf5-a0b6-4e5c-a999-7ee0f8a9ddbe') // Jenkins credential ID
-        DOCKER_CREDENTIALS_ID = 'dockerhub-creds' // Jenkins credential ID
+        SONAR_TOKEN = credentials('17f04bf5-a0b6-4e5c-a999-7ee0f8a9ddbe')
+        DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
         DEPLOYMENT_FILE = 'deployment.yaml'
     }
-
     stages {
-
         stage('Checkout Code') {
             steps {
                 git branch: "${BRANCH}", url: "${GIT_REPO}"
@@ -183,18 +183,6 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
-
-   /*     stage('SonarQube Analysis') {
-            environment {
-                scannerHome = tool 'SonarQube Scanner' // name configured in Jenkins tools
-            }
-            steps {
-                withSonarQubeEnv('My SonarQube Server') {
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.sources=src -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}"
-                }
-            }
-        } */
-
         stage('Build Docker Image') {
             steps {
                 script {
@@ -203,7 +191,6 @@ pipeline {
                 }
             }
         }
-
         stage('Push Docker Image') {
             steps {
                 script {
@@ -215,53 +202,58 @@ pipeline {
                 }
             }
         }
-
         stage('Update Deployment File') {
             steps {
                 script {
                     def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
-                    sh """
-                        sed -i 's|image: .*|image: ${imageTag}|' ${DEPLOYMENT_FILE}
-                    """
+                    sh "sed -i 's|image: .*|image: ${imageTag}|' ${DEPLOYMENT_FILE}"
                 }
             }
         }
-
-       stage('Deploy to Minikube') {
-           steps {
-              withCredentials([file(credentialsId: 'minikube-kube-config', variable: 'KUBECONFIG')]) {
-            sh 'kubectl apply -f ${DEPLOYMENT_FILE}'
+        stage('Deploy to Minikube') {
+            steps {
+                withCredentials([file(credentialsId: 'minikube-kube-config', variable: 'KUBECONFIG')]) {
+                    sh 'kubectl apply -f ${DEPLOYMENT_FILE}'
+                }
+            }
         }
     }
-}
-}
-
     post {
         success {
-            echo "Deployment successful to Minikube"
+            echo "✅ Deployment successful to Minikube"
         }
         failure {
-            echo "Pipeline failed"
+            echo "❌ Pipeline failed"
         }
     }
 }
+```
 
-##### Jenkins pipeline overview 
+**Explanation:**
+
+- **Checkout Code**: Pulls code from GitHub.
+- **Compile Code**: Builds the WAR file.
+- **Build Docker Image**: Builds image with unique tag.
+- **Push Docker Image**: Pushes image to Docker Hub.
+- **Update Deployment File**: Replaces image tag in YAML.
+- **Deploy to Minikube**: Deploys the updated app.
+
+##### ✅ Jenkins Pipeline Overview:
 
 <img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-22-05" src="https://github.com/user-attachments/assets/49674db6-7c35-42b4-8053-297e589f269d" />
 
-### After pipeline execution 
+### ✅ After Pipeline Execution :
 <img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-24-26" src="https://github.com/user-attachments/assets/42062cc5-ccaf-410c-8210-be8704910276" />
 
-###  Docker hub images
+###  🐳 Docker Hub Image:
 
 <img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-26-47" src="https://github.com/user-attachments/assets/70c421ff-a9c0-4690-99c1-50893e5022b6" />
 
-## Pods and service running in server 
+## 📦 Pods and Service Status:
 
 <img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-28-23" src="https://github.com/user-attachments/assets/dde688c8-7dde-4fb0-9067-7901565c81c6" />
 
-### application home page url 
+### 🌐 Application Home Page:
 <img width="1920" height="1080" alt="Screenshot from 2025-07-14 22-29-07" src="https://github.com/user-attachments/assets/7fd30bc9-7232-47ec-a3e7-64fed490a179" />
 
 
