@@ -241,7 +241,7 @@ pipeline {
 - **Checkout Code**: Pulls code from GitHub.
 - **Compile Code**: Builds the WAR file.
 - **Build Docker Image**: Builds image with unique tag.
-- **SonaQube analysis"" : Code analysis report
+- **Sonarqube**: Code analysis report
 - **Push Docker Image**: Pushes image to Docker Hub.
 - **Update Deployment File**: Replaces image tag in YAML.
 - **Deploy to Minikube**: Deploys the updated app.
