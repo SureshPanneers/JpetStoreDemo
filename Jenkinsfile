@@ -6,7 +6,7 @@ pipeline {
         BRANCH = 'main'
         DOCKER_IMAGE = 'tharak397/ciscodevops'
         SONAR_PROJECT_KEY = 'JPetStore'
-        SONAR_HOST_URL = 'http://192.168.0.11:9000/'
+        SONAR_HOST_URL = 'http://192.168.49.1:9000/'
         SONAR_TOKEN = credentials('17f04bf5-a0b6-4e5c-a999-7ee0f8a9ddbe') // Jenkins credential ID
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds' // Jenkins credential ID
         DEPLOYMENT_FILE = 'deployment.yaml'
