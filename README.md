@@ -51,7 +51,8 @@ sudo docker run -d --name sonarqube -p 9000:9000 sonarqube
 
 <img width="1920" height="1080" alt="Screenshot from 2025-07-18 11-51-57" src="https://github.com/user-attachments/assets/48309cda-1ec8-4fd7-8fc4-31389b0e3300" />
 
-<img width="1920" height="1080" alt="Screenshot from 2025-07-18 11-53-04" src="https://github.com/user-attachments/assets/aad9650c-c933-4597-83b5-31c626063ab4" />
+<img width="1920" height="1080" alt="Screenshot from 2025-07-18 11-57-04" src="https://github.com/user-attachments/assets/e7793147-6216-4fce-92fa-31e626af7fe5" />
+
 
 
 ```
