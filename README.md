@@ -1,4 +1,4 @@
-# Cisco Demo Project Documentation for WAR Deployment to Minikube Clusters
+# Project Documentation for WAR Deployment to Minikube Clusters
 
 ---
 
